@@ -9,4 +9,5 @@
 * [Cloud Servers](cloud_servers/README.md)
 * [Deployment](deployment/README.md)
 * [Commit Hooks](commit_hooks/README.md)
+* [Additional Resources](additional_resouces/README.md)
 
