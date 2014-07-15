@@ -7,4 +7,10 @@ In any project tools and infrastructure can be a double edge sword.  You can't b
 
 This book is available for reading at: https://www.gitbook.io/book/jeichorn/being-a-php-developer-the-nuts-and-bolts
 
+## Contributing
+This book is hosted at github, https://github.com/jeichorn/Being-A-PHP-Developer-The-Nuts-And-Bolts.  If you see any bugs please open a an [issue](https://github.com/jeichorn/Being-A-PHP-Developer-The-Nuts-And-Bolts/issues) or send a pull request.
+
 [![Build Status](https://www.gitbook.io/button/status/book/jeichorn/being-a-php-developer-the-nuts-and-bolts)](https://www.gitbook.io/book/jeichorn/being-a-php-developer-the-nuts-and-bolts/activity)
+
+## License
+[Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](http://creativecommons.org/licenses/by-sa/4.0/) unless otherwise stated
