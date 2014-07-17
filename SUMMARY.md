@@ -10,4 +10,5 @@
 * [Deployment](deployment/README.md)
 * [Commit Hooks](commit_hooks/README.md)
 * [Additional Resources](additional_resouces/README.md)
+* [Things you should know](things_you_should_know/README.md)
 
