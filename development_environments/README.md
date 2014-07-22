@@ -48,3 +48,7 @@ You might want to check out the puphpet/config.yaml file, its what is being gene
 You likely will want a nice ssh client, a great choice is [putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).  It includes an agent as well which allows you to unlock password protected keys once per session.
 
 Want a graphical editor for your hosts file, try [HostsMan](http://www.abelhadigital.com/hostsman)
+
+
+## Things to checkout
+You want want to dig into the "Sharing Folder with Local VM" section o the "Deploay Target" tab and Vhost section on the "Webservers" tab.  A basic export of your project to /var/www works, but likely isn't what you want long term.
