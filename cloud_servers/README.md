@@ -24,13 +24,19 @@ return [
     'ssh-identify' => 'ubuntu-14-04-x64',
 ];
 ```
-5. Add the following stub config to puphpet/config.yml (we are disabling the port forwarding in our local config, but otherwise sharing everything else)
+5. Add the following stub config to puphpet/config.yml, you can just add it at the top of the file
 ```
 digital_ocean:
     vm:
         network:
             private_network: 192.168.56.101
-            forwarded_port: {  }
+            forwarded_port:
+                9THMRfpKigCJ:
+                    host: '22'
+                    guest: '22'
+                pj1TsybCXKMP:
+                    host: '80'
+                    guest: '80'
 ```
 6. Check out create-server.php
  * We are using https://github.com/toin0u/DigitalOceanV2 to talk to the API
