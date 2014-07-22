@@ -9,41 +9,42 @@ Even if the cloud isn't the right fit for every project, its easy to see how a $
 Lets set one up at Digital Ocean so our next tutorial on deployment has a destination.
 
 ## Tutorial
-If you remember back to the *Development Environments* chapter the PuPHPet ui had options to deploy to the cloud.  This makes things super simple, we can quickly replicate our local vagrant server at Digital Ocean.
+The assumption here is that you are using this server for a remote development environment or staging environment.  Thats a great use case for reusing the same PuPHPet config that we are using in development.  In this case we will just be using PHP script to create the server and then kick off the PuPHPet code.  If this was for a production environment you will at least want to learn how customize the PuPHPet code before reusing it.  Your provider choice might change as well, since extra features can start to play a larger part then price.
 
-**Vagrant + DO is a bit of mess right now, I cover the fixups, but things could be better**
+For a development/testing/staging environment its hard to beat the $10 a month instances offered by [Linode](https://www.linode.com/?r=6116e4762c91140ac2226d23dfa53a7cfdd7971e) or [Digital Ocean](https://www.digitalocean.com/?refcode=b7452ac8079b).  They both offer nice APIS and similar performance.  Digital Ocean also offers a $5 server, though at 512m its less useful as a general instance.  In this tutorial we are going to use Digital Ocean.
 
-**TODO figure out if there is a better solution, maybe explain how to use a different tool + PuPHPet's puppet config**
-
-**With the no Rsync installed by vagrant on Windows i'm tempted to rewrite this chapter, things don't seem to be a globally usable state right now**
-
-If you are running windows, install [MinGW](http://sourceforge.net/projects/mingw/files/latest/download) then install msys rsync and run vagrant from the Git Shell that the github client installs.  This will give you rsync.
-
-1. [Signup](https://www.digitalocean.com/?refcode=b7452ac8079b)
-2. Generate a new PuPHpet config with Digital Ocean as the target
- * You can drag and drop your current config.yaml so you only have to change the target
- * As of 7/13/2014 the vagrant digital ocean provider uses the 2.0 api.  PuPHPet is still asking for 1.0 config as of 7/16/2014.  You will need to edit the config.yaml to fix this.
- * Local Private Key Path needs to be set to real key, if you don't already have a default ssh key you can generate a new one by running "ssh-keygen"
- * 1GB/1 CPU boxes are $10 a month 512MB are $5 a month
-4. Set provider.token in the config.yaml where you see api_key, you can get a token from Apps & Api in the Digital Ocean control panel.  Also change the region to "nyc2".
-![Generate token](do-generate-token.png)
-You also need to add the follow to the VagrantFile in the "config.vm.provider :digital_ocean do |provider|" section
+1. Clone the [example repo](https://github.com/jeichorn/PHP-Developer-Example).
+2. [Signup for a Digital Ocean account](https://www.digitalocean.com/?refcode=b7452ac8079b).
+3. Create a [Read/Write API key](https://cloud.digitalocean.com/settings/tokens/new).
+4. Create a config.php file in the DigitalOcean directory of the Example repo
+```php
+return [
+    'token' => 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'image' => 'ubuntu-14-04-x64',
+    'ssh-identify' => 'ubuntu-14-04-x64',
+];
 ```
-    provider.token = "#{data['vm']['provider']['digital_ocean']['token']}"
+5. Add the following stub config to puphpet/config.yml (we are disabling the port forwarding in our local config, but otherwise sharing everything else)
 ```
-3. Run "vagrant destroy" if you currently have a local vm from the earlier chapters.  Vagrant can currently only manage vm's from provider type
-4. Backup your local puphpet file "mv puphet puphet-local"
-5. Copy the new puphet config
-6. Folow the Digital Ocean Instructions from puphpet
+digital_ocean:
+    vm:
+        network:
+            private_network: 192.168.56.101
+            forwarded_port: {  }
 ```
-vagrant plugin install vagrant-digitalocean
-vagrant box add dummy https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box
-```
-7. Run "vagrant up"
-8. Run ""
-
-
-## Vagrant + Cloud
-The vagrant experience isn't perfect switching between local and remote VMs.  For most dev uses, either or will work.  Also remember that as long as you aren't customizing your VMs outside of the puphpet config they are 100% reproducable so destroying them isn't an issue.
-
-For more complex situations its easy enough to control Digital Ocean servers with your own code or one of the [community tools](https://www.digitalocean.com/community/projects).  You can even reuse the puppet configuration from PuPHPet.  These more complex situations are left up to the exercise of the reader.
+6. Check out create-server.php
+ * We are using https://github.com/toin0u/DigitalOceanV2 to talk to the API
+ * The script is simple but does some nice things like create or lookup server info if the server is already running
+ * It supports all the Images that DigitalOcean does
+ * A server from an API, :-) nice isn't it
+7. Run ```composer install``` in the DigitalOcean directory
+8. Run ```php create-server.php```
+9. Run ```php create-server.php go```
+ * We run it on a 2nd run since the server needs to be booted before we can run the PuPHPet stuff
+ * If you don't already have a PuPHPet config from an earlier step this will blow up on you, its just reusing that config
+10. Update your hosts file to point awesome.dev to your new server
+ * You could also add additional names to your vhost config and point real DNS to the server.  For staging etc this can be handy.
+ * Digital Ocean provides DNS and has an API for it, so you could automate the DNS part as well
+11. Run ```ssh root@ipofewserver``` then ```tail -f /var/log/apache2/*.log```
+12. Open awesome.dev in your web browser
+ * You won't see anything since its just an empty directory, but we can take care of that in the deployment chapter
