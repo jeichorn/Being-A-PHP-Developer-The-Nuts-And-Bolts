@@ -51,4 +51,4 @@ Want a graphical editor for your hosts file, try [HostsMan](http://www.abelhadig
 
 
 ## Things to checkout
-You might want to dig into the "Sharing Folder with Local VM" section on the "Deploay Target" tab and Vhost section on the "Webservers" tab.  A basic export of your project to /var/www works, but likely isn't what you want long term.
+You might want to dig into the "Sharing Folder with Local VM" section on the "Deploy Target" tab and Vhost section on the "Webservers" tab.  A basic export of your project to /var/www works, but likely isn't what you want long term.
